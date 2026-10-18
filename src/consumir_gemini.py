@@ -4,17 +4,13 @@ from dotenv import load_dotenv
 
 # Cargar variables de entorno
 load_dotenv()
-api_key = os.getenv("GEMINI_API_KEY")
-modelo = "gemini-3.6-flash"
 
 def armar_peticion(pregunta: str):
     """Arma la URL y el body de la petición"""
+    api_key = os.getenv("GEMINI_API_KEY")
+    modelo = "gemini-3.6-flash"
     url = f"https://generativelanguage.googleapis.com/v1beta/models/{modelo}:generateContent?key={api_key}"
-    body = {
-        "contents": [
-            {"parts": [{"text": pregunta}]}
-        ]
-    }
+    body = {"contents": [{"parts": [{"text": pregunta}]}]}
     return url, body
 
 def enviar_peticion(url: str, body: dict):
