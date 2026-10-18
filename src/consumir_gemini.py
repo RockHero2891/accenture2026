@@ -2,30 +2,35 @@ import os
 import requests
 from dotenv import load_dotenv
 
-# Cargar variables de entorno desde .env
+# Cargar variables de entorno
 load_dotenv()
+api_key = os.getenv("GEMINI_API_KEY")
+modelo = "gemini-3.6-flash"
 
-def obtener_dato_de_prueba(pregunta: str) -> str:
-    # Leer la API key desde .env
-    api_key = os.getenv("GEMINI_API_KEY")
-    modelo = "gemini-3.6-flash"  # este es el modelo que confirmaste que funciona
+def armar_peticion(pregunta: str):
+    """Arma la URL y el body de la petición"""
     url = f"https://generativelanguage.googleapis.com/v1beta/models/{modelo}:generateContent?key={api_key}"
-
-    # Armar el cuerpo de la petición
     body = {
         "contents": [
             {"parts": [{"text": pregunta}]}
         ]
     }
+    return url, body
 
-    # Enviar la petición
+def enviar_peticion(url: str, body: dict):
+    """Envía la petición y devuelve la respuesta en JSON"""
     respuesta = requests.post(url, json=body)
+    return respuesta.json()
 
-    # Convertir la respuesta a diccionario
-    datos = respuesta.json()
-
-    # Extraer el texto generado
+def extraer_texto(datos: dict) -> str:
+    """Extrae el texto generado desde la respuesta JSON"""
     return datos["candidates"][0]["content"]["parts"][0]["text"]
+
+def obtener_dato_de_prueba(pregunta: str) -> str:
+    """Función principal que coordina las demás funciones"""
+    url, body = armar_peticion(pregunta)
+    datos = enviar_peticion(url, body)
+    return extraer_texto(datos)
 
 # Prueba rápida
 if __name__ == "__main__":
