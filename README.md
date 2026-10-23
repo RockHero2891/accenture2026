@@ -1,27 +1,129 @@
-# Plantilla de repositorio base — Especialización en Desarrollo con IA Generativa (Accenture)
+# Miniaplicación Gemini API
 
-Esta es la estructura base que vas a usar como punto de partida para tu proyecto en este programa. Es la misma estructura que vas a ir ampliando bloque a bloque, hasta llegar a la aplicación completa que entregas en el Gate 3.
+Proyecto desarrollado durante el Módulo 1 de la Especialización en Inteligencia Artificial.
 
-## Cómo empezar
+Permite consumir la API de Gemini mediante Python, procesar respuestas JSON, manejar errores comunes y utilizar prompts estructurados.
 
-Estos pasos se completan de forma progresiva a lo largo de la Unidad U1.2, no todos el mismo día:
+---
 
-1. Descarga este archivo comprimido (adjunto en la plataforma) y descomprímelo en tu computador. Inicializa el control de versiones sobre esa carpeta y registra tu primer commit con esta estructura base, tal como llegó, antes de modificar nada.
-2. Crea tu entorno virtual de Python (por ejemplo, con `venv`) y actívalo.
-3. Instala las dependencias que necesites y regístralas en `requirements.txt` (al inicio puede estar vacío o con muy pocas).
-4. Copia `.env.example` a un archivo nuevo llamado `.env`, y completa ahí tus credenciales reales (llaves de API, tokens). El archivo `.env` nunca se sube al repositorio: ya está excluido en `.gitignore`.
+## Requisitos
 
-## Estructura de carpetas
+- Python 3.10 o superior
+- Git
+- API Key de Gemini
 
-- `src/` : todo el código fuente de tu proyecto va aquí.
-- `docs/` : documentación técnica del proyecto (diagramas, decisiones de arquitectura, notas).
-- `tests/` : pruebas de tu código (las vas a usar más adelante en el programa, cuando el proyecto lo requiera).
-- `requirements.txt` : dependencias de Python de tu proyecto, para que cualquier otra persona pueda reconstruir tu entorno con un solo comando.
-- `.env.example` : plantilla de las variables de entorno que tu proyecto necesita, sin valores reales. Tu archivo `.env` real (con tus credenciales) nunca se commitea.
-- `.gitignore` : le dice a Git qué archivos y carpetas ignorar (entre ellos, tu entorno virtual y tu archivo `.env`).
+---
 
-## Reglas que se mantienen durante todo el programa
+## Clonar el repositorio
 
-- Ningún secreto (contraseña, llave de API, token) va escrito directamente en el código ni en ningún archivo que se suba al repositorio.
-- Cada proyecto nuevo tiene su propio entorno virtual: no se comparten dependencias entre proyectos distintos.
-- Todo el trabajo que se entrega en este programa vive en un repositorio de GitHub, sin excepción.
+```bash
+git clone https://github.com/RockHero2891/accenture2026
+cd accenture2026
+```
+
+---
+
+## Crear entorno virtual
+
+### Windows
+
+```bash
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+```
+
+### Linux / macOS
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+---
+
+## Instalar dependencias
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## Configurar variables de entorno
+
+Copiar el archivo de ejemplo:
+
+```bash
+cp .env.example .env
+```
+
+o en Windows:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+Editar `.env` y agregar:
+
+```env
+GEMINI_API_KEY=TU_API_KEY
+```
+
+---
+
+## Ejecutar
+
+```bash
+python src/consumir_gemini.py
+```
+
+---
+
+## Estructura del proyecto
+
+```text
+src/
+docs/
+prompts/
+```
+
+### src
+
+Contiene el módulo principal:
+
+- armar_peticion()
+- enviar_peticion()
+- extraer_texto()
+
+### docs
+
+Contiene:
+
+- evidencia de llamadas a la API
+- diagrama de arquitectura
+- decisión de arquitectura
+
+### prompts
+
+Contiene:
+
+- banco de prompts
+- pruebas de consistencia
+- registro de resultados
+
+---
+
+## Funcionalidades
+
+- Consumo de API Gemini
+- Manejo de errores
+- Variables de entorno seguras
+- Prompt de sistema
+- Salidas estructuradas en JSON
+- Banco de prompts reutilizables
+
+---
+
+## Autor
+
+Gabriel Muñoz
