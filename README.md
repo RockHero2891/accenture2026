@@ -124,6 +124,16 @@ Contiene:
 
 ---
 
+## Verificación Gate 1
+
+Ensayo de instalación limpia realizado correctamente.
+
+Resultado:
+- Repositorio clonado desde GitHub
+- Dependencias instaladas desde requirements.txt
+- Variables de entorno configuradas mediante .env
+- Miniaplicación ejecutada correctamente contra Gemini API
+
 ## Autor
 
 Gabriel Muñoz
