@@ -1,0 +1,10 @@
+Fecha: 2026-11-18
+Configuracion: k=3, chunk_size=200, chunk_overlap=30
+
+0.33  1.00  ¿Qué ocurre cuando hay un TimeoutError?
+0.33  1.00  ¿Cómo se calculan los costos?
+0.33  1.00  ¿Para qué sirven los mocks?
+0.33  1.00  ¿Cómo selecciona herramientas el agente?
+0.33  1.00  ¿Qué hace la memoria conversacional?
+
+promedio -> precision: 0.333  recall: 1.000
