@@ -1,12 +1,52 @@
-# Miniaplicación Gemini API
+# Accenture2026 – Gate 2: Integración y Orquestación
 
-Proyecto desarrollado durante el Módulo 1 de la Especialización en Inteligencia Artificial.
+Proyecto desarrollado durante el Módulo 2 de la Especialización en Inteligencia Artificial.
 
-Permite consumir la API de Gemini mediante Python, procesar respuestas JSON, manejar errores comunes y utilizar prompts estructurados.
+Este repositorio implementa un flujo RAG (Retrieval-Augmented Generation) completo utilizando Gemini, embeddings, Chroma y recuperación semántica, incorporando además evaluación, observabilidad, seguridad, gobernanza y una decisión fundamentada de personalización.
 
 ---
 
-## Requisitos
+# Funcionalidades implementadas
+
+## RAG
+
+- Chunking mediante RecursiveCharacterTextSplitter.
+- Embeddings con Gemini (`gemini-embedding-001`).
+- Persistencia local con Chroma.
+- Recuperación semántica.
+- Construcción dinámica de prompts.
+- Soporte para citación de fuentes.
+
+## Evaluación
+
+- Medición de precisión.
+- Medición de recall.
+- Registro de resultados de evaluación.
+- Conjunto de preguntas de validación.
+
+## Observabilidad
+
+- Logging estructurado en JSON.
+- Trace ID por consulta.
+- Registro de consumo de tokens.
+- Registro de latencia.
+
+## Seguridad
+
+- Filtro básico de prompt injection.
+- Delimitación explícita de contexto.
+- Separación de instrucciones y contexto recuperado.
+
+## Gobernanza
+
+- Versionado de prompts.
+- Supervisión humana mediante LangGraph.
+- Matriz de riesgos.
+- Decisión documentada de personalización.
+
+---
+
+# Requisitos
 
 - Python 3.10 o superior
 - Git
@@ -14,25 +54,25 @@ Permite consumir la API de Gemini mediante Python, procesar respuestas JSON, man
 
 ---
 
-## Clonar el repositorio
+# Clonar el repositorio
 
 ```bash
-git clone https://github.com/RockHero2891/accenture2026
+git clone https://github.com/RockHero2891/accenture2026.git
 cd accenture2026
 ```
 
 ---
 
-## Crear entorno virtual
+# Crear entorno virtual
 
-### Windows
+## Windows
 
 ```bash
 python -m venv venv
-.\venv\Scripts\Activate.ps1
+.\venv\Scripts\activate
 ```
 
-### Linux / macOS
+## Linux / macOS
 
 ```bash
 python3 -m venv venv
@@ -41,7 +81,7 @@ source venv/bin/activate
 
 ---
 
-## Instalar dependencias
+# Instalar dependencias
 
 ```bash
 pip install -r requirements.txt
@@ -49,21 +89,9 @@ pip install -r requirements.txt
 
 ---
 
-## Configurar variables de entorno
+# Configurar variables de entorno
 
-Copiar el archivo de ejemplo:
-
-```bash
-cp .env.example .env
-```
-
-o en Windows:
-
-```powershell
-Copy-Item .env.example .env
-```
-
-Editar `.env` y agregar:
+Crear un archivo `.env` en la raíz:
 
 ```env
 GEMINI_API_KEY=TU_API_KEY
@@ -71,69 +99,230 @@ GEMINI_API_KEY=TU_API_KEY
 
 ---
 
-## Ejecutar
-
-```bash
-python src/consumir_gemini.py
-```
-
----
-
-## Estructura del proyecto
+# Estructura principal
 
 ```text
 src/
+├── indexar_corpus.py
+├── recuperacion.py
+├── evaluacion_recuperacion.py
+├── registro_rag.py
+├── agente_con_herramientas.py
+
 docs/
-prompts/
+├── decision-arquitectura.md
+├── limites_autonomia_agente.md
+├── limites_metrica.md
+
+vectorstore/
+
+dataset_tuning.py
+decision.py
+decision_personalizacion.md
+logging_rag.py
+grafo_supervision.py
+matriz_riesgos.py
+registro_prompts.py
 ```
 
-### src
+---
 
-Contiene el módulo principal:
+# Flujo recomendado
 
-- armar_peticion()
-- enviar_peticion()
-- extraer_texto()
+## 1. Indexar el corpus
 
-### docs
+Genera embeddings y persiste el índice en Chroma.
 
-Contiene:
+```bash
+python src/indexar_corpus.py
+```
 
-- evidencia de llamadas a la API
-- diagrama de arquitectura
-- decisión de arquitectura
+Resultado esperado:
 
-### prompts
-
-Contiene:
-
-- banco de prompts
-- pruebas de consistencia
-- registro de resultados
+```text
+Indexados 5 chunks en vectorstore
+```
 
 ---
 
-## Funcionalidades
+## 2. Recuperación semántica
 
-- Consumo de API Gemini
-- Manejo de errores
-- Variables de entorno seguras
-- Prompt de sistema
-- Salidas estructuradas en JSON
-- Banco de prompts reutilizables
+Construye el contexto recuperado y prepara el prompt dinámico.
+
+```bash
+python src/recuperacion.py
+```
+
+Resultado esperado:
+
+```text
+===== PROMPT =====
+...
+===== CITAS =====
+...
+```
 
 ---
 
-## Verificación Gate 1
+## 3. Evaluar recuperación
 
-Ensayo de instalación limpia realizado correctamente.
+Calcula precisión y recall.
 
-Resultado:
-- Repositorio clonado desde GitHub
-- Dependencias instaladas desde requirements.txt
-- Variables de entorno configuradas mediante .env
-- Miniaplicación ejecutada correctamente contra Gemini API
+```bash
+python src/evaluacion_recuperacion.py
+```
 
-## Autor
+Genera:
+
+```text
+resultados_evaluacion.txt
+```
+
+---
+
+## 4. Registrar coste y latencia
+
+Ejecuta consultas instrumentadas.
+
+```bash
+python src/registro_rag.py
+```
+
+Genera:
+
+```text
+registros_latencia_costo.jsonl
+```
+
+---
+
+## 5. Logging y trazabilidad
+
+```bash
+python logging_rag.py
+```
+
+Incluye:
+
+- Trace ID
+- Logging JSON
+- Registro de consumo
+- Mitigación de prompt injection
+
+---
+
+## 6. Versionado de prompts
+
+```bash
+python registro_prompts.py
+```
+
+Muestra:
+
+- Versiones registradas
+- Huellas SHA256 abreviadas
+- Diff entre versiones
+
+---
+
+## 7. Supervisión humana
+
+```bash
+python grafo_supervision.py
+```
+
+Valida:
+
+- Interrupt()
+- Command(resume=True)
+- Command(resume=False)
+
+---
+
+## 8. Matriz de riesgos
+
+```bash
+python matriz_riesgos.py
+```
+
+Calcula:
+
+- Probabilidad
+- Impacto
+- Categoría
+- Riesgos al límite
+
+---
+
+## 9. Personalización
+
+```bash
+python dataset_tuning.py
+```
+
+Valida dataset para PEFT.
+
+```bash
+python decision.py
+```
+
+Genera:
+
+```text
+decision_personalizacion.md
+```
+
+---
+
+# Artefactos generados
+
+## Evaluación
+
+```text
+resultados_evaluacion.txt
+```
+
+## Latencia y coste
+
+```text
+registros_latencia_costo.jsonl
+```
+
+## Decisión de personalización
+
+```text
+decision_personalizacion.md
+```
+
+---
+
+# Exclusiones de Git
+
+El proyecto ignora:
+
+```text
+.venv/
+.env
+vectorstore/
+```
+
+---
+
+# Estado del Gate 2
+
+Implementadas las dimensiones evaluadas:
+
+- Pipeline RAG funcional
+- Recuperación y citación
+- Coste y latencia
+- Personalización fundamentada
+- Observabilidad
+- Seguridad y gobernanza
+
+---
+
+# Autor
 
 Gabriel Muñoz
+
+Especialización en Inteligencia Artificial – Accenture 2026
